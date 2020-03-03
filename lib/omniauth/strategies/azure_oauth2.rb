@@ -9,8 +9,7 @@ module OmniAuth
 
       option :tenant_provider, nil
 
-      # AD resource identifier
-      option :resource, '00000002-0000-0000-c000-000000000000'
+      option :scopes, ['openid', 'profile', 'offline_access']
 
       # tenant_provider must return client_id, client_secret and optionally tenant_id and base_azure_url
       args [:tenant_provider]
@@ -22,6 +21,7 @@ module OmniAuth
           provider = options  # if pass has to config, get mapped right on to options
         end
 
+        options.scope = provider.scopes.join(' ')
         options.client_id = provider.client_id
         options.client_secret = provider.client_secret
         options.tenant_id =
