@@ -51,7 +51,9 @@ module OmniAuth
           oid: raw_info['oid'],
           tid: raw_info['tid'],
           aud: raw_info['aud'],
-          groups: raw_info['groups']
+          groups: raw_info['groups'],
+          name: raw_info['DisplayName'],
+          email: raw_info['EmailAddress']
         }
       end
 
