@@ -9,7 +9,7 @@ module OmniAuth
 
       option :tenant_provider, nil
 
-      option :scopes, ['openid', 'profile', 'offline_access']
+      option :scopes, ['openid', 'profile', 'offline_access', 'https://outlook.office.com/User.Read'] 
 
       # tenant_provider must return client_id, client_secret and optionally tenant_id and base_azure_url
       args [:tenant_provider]
@@ -38,7 +38,7 @@ module OmniAuth
       end
 
       uid {
-        raw_info['id']
+        raw_info['Id']
       }
 
       info do
