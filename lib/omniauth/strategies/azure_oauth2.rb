@@ -1,5 +1,4 @@
 require 'omniauth/strategies/oauth2'
-require 'jwt'
 
 module OmniAuth
   module Strategies
@@ -33,13 +32,13 @@ module OmniAuth
         options.authorize_params = provider.authorize_params if provider.respond_to?(:authorize_params)
         options.authorize_params.domain_hint = provider.domain_hint if provider.respond_to?(:domain_hint) && provider.domain_hint
         options.authorize_params.prompt = request.params['prompt'] if defined? request && request.params['prompt']
-        options.client_options.authorize_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/authorize"
-        options.client_options.token_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/token"
+        options.client_options.authorize_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/v2.0/authorize"
+        options.client_options.token_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/v2.0/token"
         super
       end
 
       uid {
-        raw_info['sub']
+        raw_info['id']
       }
 
       info do
@@ -67,7 +66,7 @@ module OmniAuth
 
       def raw_info
         # it's all here in JWT http://msdn.microsoft.com/en-us/library/azure/dn195587.aspx
-         @raw_info ||= ::JWT.decode(access_token.params['id_token'], nil, false).first
+        @raw_info ||= access_token.get('https://outlook.office.com/api/v2.0/me').parsed
       end
 
     end
